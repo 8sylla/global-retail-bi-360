@@ -1,0 +1,76 @@
+# ========================
+# 🐍 PYTHON
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# ========================
+# 📊 POWER BI
+# ========================
+# On ignore les fichiers temporaires de récupération, mais on garde le .pbix
+*.pbix.tmp
+*.pbit.tmp
+*.slicer
+Microsoft Power BI Desktop/
+
+# ========================
+# 🐘 TALEND (ETL)
+# ========================
+# On ignore les builds et binaires générés localement
+*.screenshot
+/etls/*/bin/
+/etls/*/src/
+/etls/*/target/
+.settings/
+.classpath
+.project
+/temp/
+workspace/
+
+# ========================
+# 💾 DATA (SOURCES)
+# ========================
+# IMPORTANT : On ignore les fichiers Excel/CSV s'ils sont trop gros (>100MB)
+# Pour ce projet, on garde les "inputs" s'ils sont petits pour que le prof puisse tester,
+# mais on ignore les fichiers générés temporairement.
+*.tmp
+*.bak
+*.log
+logs/
+
+# ========================
+# 📝 LATEX & DOCS
+# ========================
+# Fichiers temporaires de compilation LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+*.out
+*.log
+*.bbl
+*.blg
+*.dvi
+*.nav
+*.snm
+
+# ========================
+# 🔧 IDE / OS
+# ========================
+# VS Code
+.vscode/
+# Windows / Mac
+Thumbs.db
+.DS_Store
+
+# ========================
+# 🔐 SECURITE
+# ========================
+# Jamais de mots de passe ou clés API
+secrets.json
+config.py
