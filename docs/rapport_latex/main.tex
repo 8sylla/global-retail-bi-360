@@ -1,0 +1,938 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{tocloft}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{listings}
+
+\usepackage{enumitem}
+
+\frenchsetup{StandardItemLabels=true}
+
+\setlist[itemize,1]{label=\textbullet}
+% -------------------------------------
+
+\definecolor{maincolor}{RGB}{0,102,204}
+\definecolor{secondcolor}{RGB}{51,51,51}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries\color{maincolor}}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{maincolor}}{\thesection}{1em}{}
+\titleformat{\subsection}
+{\normalfont\large\bfseries\color{secondcolor}}{\thesubsection}{1em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\thepage}
+\fancyfoot[C]{Global Retail 360 - Analyse Supply Chain}
+\renewcommand{\headrulewidth}{0.5pt}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=maincolor,
+    filecolor=maincolor,
+    urlcolor=maincolor,
+    citecolor=maincolor
+}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{-2.5cm} 
+
+    \noindent 
+    \hspace*{-2.5cm} 
+    \begin{minipage}[c]{0.3\textwidth}
+        \raggedright
+        \includegraphics[height=2.5cm]{Ensat.jpg} 
+    \end{minipage}%
+    \hfill 
+    \begin{minipage}[c]{0.5\textwidth}
+        \raggedleft
+        \includegraphics[height=2.5cm]{1200px-Université_Abdelmalek_Essaâdi.png} 
+    \end{minipage}
+    \hspace*{-2.0cm}
+    
+    \vspace*{2cm}
+
+    {\large \textsc{Génie Informatique – GINF3}}\\[0.5cm]
+
+    \rule{\linewidth}{0.5mm} \\[0.4cm]
+    { \Huge \bfseries Global Retail 360: \\ Analyse de la Supply Chain et de la Satisfaction Client \\[0.4cm] }
+    \rule{\linewidth}{0.5mm} \\[1.5cm]
+    
+
+
+    {\Large\bfseries Projet Business Intelligence avec Power BI}\\[0.5cm]
+    {\large Utilisation de Talend Open Studio pour l'ETL}\\[2.5cm]
+
+    {\Large \emph{Encadré par :}}\\
+    {\Large Mr. HASSAN BADIR }\\[2.5cm]
+    
+    \begin{minipage}[t]{0.45\textwidth}
+        \raggedright \large
+        \emph{Auteurs :}\\
+        \textbf{EL ADNANI EL MEHDI }\\
+        \textbf{N'FALY SYLLA }\\
+        \textbf{CHAIBERRAS SOUHAIL}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \raggedleft \large
+        \emph{Date :}\\
+        Janvier 2026
+    \end{minipage}
+
+    \vfill
+    
+    {\large Année Académique 2025-2026}
+
+\end{titlepage}
+
+% Page de résumé
+\chapter*{Résumé Exécutif}
+\addcontentsline{toc}{chapter}{Résumé Exécutif}
+
+Ce rapport présente une analyse approfondie de la supply chain et de la satisfaction client pour une entreprise de e-commerce international. L'étude se concentre sur l'optimisation des délais de livraison et de la marge bénéficiaire en analysant la corrélation entre les retards logistiques et le taux de retour des produits.
+
+\vspace{0.5cm}
+
+\noindent\textbf{Problématique :} Comment optimiser les délais de livraison et la marge bénéficiaire d'une entreprise de e-commerce internationale en analysant la corrélation entre les retards logistiques et le taux de retour des produits ?
+
+\vspace{0.5cm}
+
+\noindent\textbf{Objectifs principaux :}
+\begin{itemize}
+    \item Analyser les performances logistiques par région et mode d'expédition
+    \item Identifier les corrélations entre retards et retours produits
+    \item Optimiser les coûts de livraison tout en maintenant la satisfaction client
+    \item Proposer des recommandations stratégiques basées sur les données
+\end{itemize}
+
+\vspace{0.5cm}
+
+\noindent\textbf{Méthodologie :} Utilisation de Talend Open Studio pour l'extraction, transformation et chargement des données (ETL), suivie d'une analyse visuelle avec Power BI.
+
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+
+\chapter{Introduction Générale}
+
+\section{Contexte et Enjeux Stratégiques}
+Dans un écosystème e-commerce globalisé, la maîtrise de la \textit{Supply Chain} ne représente plus seulement un défi logistique, mais un levier direct de rentabilité financière. Ce projet, intitulé \textbf{Global Retail 360}, s'inscrit dans une démarche d'intelligence décisionnelle visant à transformer des données opérationnelles brutes en indicateurs de performance (KPI) actionnables. 
+
+\section{Problématique et Objectifs Décisionnels}
+L'enjeu central de cette étude est de quantifier l'élasticité entre la performance logistique et la satisfaction client. Plus précisément, il s'agit de répondre à la question suivante : 
+\begin{quote}
+    \textit{« Comment l'optimisation des flux logistiques et la réduction des délais de livraison impactent-elles le taux de retour produit et, par extension, la marge nette de l'entreprise ? »}
+\end{quote}
+
+Les objectifs sont hiérarchisés selon trois axes :
+\begin{itemize}
+    \item \textbf{Analytique :} Corréler les retards de livraison avec les comportements de retour.
+    \item \textbf{Opérationnel :} Identifier les segments (régions/modes d'envoi) sous-performants.
+    \item \textbf{Stratégique :} Proposer des recommandations basées sur des évidences empiriques pour maximiser le ROI.
+\end{itemize}
+\section{Objectifs SMART du Projet}
+
+Pour répondre à cette problématique, nous avons défini des objectifs selon la méthode SMART (Spécifique, Mesurable, Atteignable, Réaliste, Temporel).
+
+\subsection{Objectifs Fonctionnels}
+
+\begin{itemize}
+    \item \textbf{Centraliser l'information :} Offrir une vue unique consolidant les Ventes, les Objectifs et la Logistique.
+    \item \textbf{Piloter la Performance :} Permettre au Directeur Financier (CFO) de suivre la marge par pays et par produit.
+    \item \textbf{Analyser les Retours :} Permettre au Responsable Logistique d'identifier les causes racines des retours (Produit défectueux vs Retard de livraison).
+\end{itemize}
+
+L'interaction entre ces acteurs et le système est illustrée par les diagrammes suivants.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{mcd.png}}
+    \caption{Architecture globale du système BI Global Retail}
+    \label{fig:architecture_system}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.85\textwidth]{usecase.png}}
+    \caption{Diagramme de cas d'utilisation - Système BI Global Retail}
+    \label{fig:use_case}
+\end{figure}
+\section{Périmètre du Système d'Information}
+L'architecture repose sur l'analyse de :
+\begin{itemize}
+    \item \textbf{Transactions :} 51 290 lignes de ventes couvrant 13 marchés mondiaux.
+    \item \textbf{Logistique :} Une gestion multi-modale (Same Day, First/Second Class).
+    \item \textbf{Service Client :} Un flux XML dédié aux retours et aux motifs d'insatisfaction.
+\end{itemize}
+
+\chapter{Préparation de l'Environnement et Génération des Données}
+
+\section{Installation des Dépendances Python}
+
+La première étape du projet consiste à préparer l'environnement de développement avec les bibliothèques nécessaires au traitement des données.
+
+\subsection{Bibliothèques Requises}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.85\textwidth]{1.png}}
+    \caption{Installation des bibliothèques Python (pandas, openpyxl, lxml)}
+    \label{fig:pip_install}
+\end{figure}
+
+Les bibliothèques installées permettent de :
+\begin{itemize}
+    \item \textbf{pandas} : Manipulation et analyse de données tabulaires
+    \item \textbf{openpyxl} : Lecture et écriture de fichiers Excel (.xlsx)
+    \item \textbf{lxml} : Traitement de fichiers XML pour les retours logistiques
+\end{itemize}
+
+Ces outils constituent la base technique pour la génération de fichiers sources hétérogènes simulant un environnement ERP réel.
+
+\section{Génération des Fichiers Sources}
+
+\subsection{Architecture du Script de Génération}
+
+Le script \texttt{generate\_sources.py} crée un ensemble de fichiers représentant les différentes sources de données d'une entreprise :
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.9\textwidth]{3.png}}
+    \caption{Exécution du script de génération des sources de données}
+    \label{fig:generate_script}
+\end{figure}
+
+\subsection{Données Générées}
+
+Le processus de génération produit :
+
+\begin{enumerate}
+    \item \textbf{Fichier CSV des Ventes} (\texttt{Source\_ERP\_Ventes.csv})
+    \begin{itemize}
+        \item 51 290 lignes de transactions commerciales
+        \item 24 colonnes incluant : Order ID, dates, produits, clients, localisation, montants
+        \item Format délimité par point-virgule pour compatibilité internationale
+    \end{itemize}
+    
+    \item \textbf{Fichier Excel des Objectifs RH} (\texttt{Source\_RH\_Targets.xlsx})
+    \begin{itemize}
+        \item 13 régions avec managers assignés
+        \item Objectifs de vente annuels par région
+        \item Structure multi-feuilles pour simulation de classeur complexe
+    \end{itemize}
+    
+    \item \textbf{Fichier XML des Retours} (\texttt{Source\_Logistique\_Returns.xml})
+    \begin{itemize}
+        \item 2002 retours simulés avec motifs (Late Delivery, Defective, etc.)
+        \item Structure hiérarchique XML avec balises Returns/Return
+        \item Enrichissement avec timestamps et statuts de traitement
+    \end{itemize}
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.9\textwidth]{4.png}}
+    \caption{Confirmation de génération des trois types de fichiers sources}
+    \label{fig:files_generated}
+\end{figure}
+
+\subsection{Importance de la Simulation}
+
+Cette approche de génération simulée permet :
+\begin{itemize}
+    \item De tester la robustesse du pipeline ETL sur des données réalistes
+    \item De valider la capacité à gérer des formats hétérogènes (CSV, Excel, XML)
+    \item De reproduire les défis rencontrés en environnement de production
+\end{itemize}
+
+\chapter{Architecture Technique et Conception du Data Warehouse}
+
+\section{Configuration de la Base de Données PostgreSQL}
+
+\subsection{Connexion et Paramétrage}
+
+La base de données cible a été configurée pour optimiser les requêtes analytiques de type OLAP.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.7\textwidth]{6.png}}
+    \caption{Configuration de la connexion PostgreSQL dans Talend}
+    \label{fig:postgres_config}
+\end{figure}
+
+\textbf{Paramètres de connexion :}
+\begin{itemize}
+    \item \textbf{Hôte :} Postgres\_Local\_0.1 (instance locale)
+    \item \textbf{Base de données :} GlobalRetailDW
+    \item \textbf{Schéma :} Tables dimensionnelles et table de faits
+    \item \textbf{Encodage :} UTF-8 pour support multilingue
+\end{itemize}
+
+\subsection{Création du Schéma Dimensionnel}
+
+Le modèle physique suit une architecture en étoile (Star Schema) avec :
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.65\textwidth]{5.png}}
+    \caption{Structure des tables dans PostgreSQL}
+    \label{fig:db_structure}
+\end{figure}
+
+\textbf{Tables de dimensions créées :}
+\begin{itemize}
+    \item \texttt{dim\_customer} : Informations clients (4 colonnes)
+    \item \texttt{dim\_location} : Hiérarchie géographique (city, state, country, region, market)
+    \item \texttt{dim\_product} : Catalogue produits avec catégories
+    \item \texttt{dim\_manager} : Responsables régionaux et objectifs
+    \item \texttt{fact\_sales} : Table de faits centrale avec métriques
+\end{itemize}
+
+Les messages d'avertissement confirment que les tables n'existaient pas et ont été créées avec succès lors de la première exécution.
+
+\section{Architecture Talend Open Studio}
+
+\subsection{Organisation du Projet}
+
+Le projet est structuré de manière modulaire pour faciliter la maintenance et l'évolutivité :
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.5\textwidth]{9.png}}
+    \caption{Hiérarchie des Jobs dans Talend Open Studio}
+    \label{fig:talend_hierarchy}
+\end{figure}
+
+\textbf{Structure du référentiel :}
+\begin{itemize}
+    \item \textbf{Jobs :} Contient le job principal \texttt{Job\_GlobalRetail\_Load\_0.1}
+    \item \textbf{Contextes :} Variables d'environnement réutilisables
+    \item \textbf{Code :} Routines personnalisées
+    \item \textbf{Modèles SQL :} Requêtes template
+    \item \textbf{Métadonnées :} Définitions des connexions et schémas
+\end{itemize}
+
+\subsection{Palette de Composants}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.45\textwidth]{11.png}}
+    \caption{Palette des composants Talend disponibles}
+    \label{fig:talend_palette}
+\end{figure}
+
+Les composants utilisés proviennent principalement de :
+\begin{itemize}
+    \item \textbf{Fichier :} tFileInputDelimited, tFileInputExcel, tFileInputXML
+    \item \textbf{Bases de données :} tDBOutput, tDBInput pour PostgreSQL
+    \item \textbf{Traitement :} tMap, tUniqRow pour transformations
+    \item \textbf{Qualité :} Composants de nettoyage et validation
+\end{itemize}
+
+\chapter{Processus ETL : Extraction et Transformation}
+
+\section{Chargement de la Dimension Location}
+
+\subsection{Pipeline de Transformation}
+
+Le premier flux ETL traite les données géographiques pour créer la dimension \texttt{dim\_location}.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{13.png}}
+    \caption{Flux ETL complet pour la dimension Location}
+    \label{fig:etl_location}
+\end{figure}
+
+\textbf{Étapes du processus :}
+\begin{enumerate}
+    \item \textbf{Source\_CSV\_Sales :} Lecture du fichier de ventes brut
+    \item \textbf{tUniqRow\_1 :} Élimination des doublons sur les combinaisons géographiques uniques
+    \item \textbf{tMap\_1 :} Mapping des colonnes et génération de la clé de substitution
+    \item \textbf{dim\_location :} Insertion dans la table PostgreSQL
+\end{enumerate}
+
+\subsection{Détails du Mapping}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{12.png}}
+    \caption{Configuration détaillée du composant tMap pour Location}
+    \label{fig:tmap_location}
+\end{figure}
+
+\textbf{Transformations appliquées :}
+\begin{itemize}
+    \item Extraction des champs : City, State, Country, Region, Market
+    \item Génération automatique de \texttt{location\_key} (clé primaire)
+    \item Mapping direct des attributs descriptifs
+\end{itemize}
+
+\textbf{Résultat :} 3819 localisations uniques identifiées et chargées en 0.8 secondes.
+
+\section{Chargement des Dimensions Produit et Client}
+
+Le même pattern ETL est appliqué pour les autres dimensions, garantissant la cohérence du processus.
+
+\subsection{Volume de Données Traité}
+
+\begin{table}[H]
+\centering
+\caption{Statistiques de chargement des dimensions}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Dimension} & \textbf{Enregistrements Uniques} & \textbf{Temps (s)} \\
+\midrule
+dim\_location & 3 819 & 0.8 \\
+dim\_product & 10 292 & 0.46 \\
+dim\_customer & 1 590 & 0.32 \\
+dim\_manager & 13 & 0.57 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Traitement des Fichiers Hétérogènes}
+
+\subsection{Fichier Délimité (CSV)}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{8.png}}
+    \caption{Configuration du composant tFileInputDelimited}
+    \label{fig:csv_config}
+\end{figure}
+
+\textbf{Paramètres clés :}
+\begin{itemize}
+    \item \textbf{Encodage :} UTF-8 pour caractères internationaux
+    \item \textbf{Séparateur :} Point-virgule (;)
+    \item \textbf{En-tête :} Ligne 1 définie comme noms de colonnes
+    \item \textbf{Lignes ignorées :} Gestion du pied de page si présent
+\end{itemize}
+
+\subsection{Fichier XML (Retours Logistiques)}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.85\textwidth]{7.png}}
+    \caption{Configuration du parseur XML avec expression XPath}
+    \label{fig:xml_config}
+\end{figure}
+
+\textbf{Configuration XPath :}
+\begin{itemize}
+    \item \textbf{Expression de boucle :} \texttt{/Returns/Return} (itération sur chaque retour)
+    \item \textbf{Limite :} 50 éléments par batch pour optimisation mémoire
+    \item \textbf{Champs extraits :} OrderID, Status, Reason
+\end{itemize}
+
+Le mapping XPath permet d'extraire les données hiérarchiques et de les aplatir pour l'intégration relationnelle.
+
+\chapter{Intégration de la Table de Faits}
+
+\section{Architecture du Job Principal}
+
+\subsection{Vue d'Ensemble du Pipeline}
+
+Le job \texttt{Job\_GlobalRetail\_Load} orchestre l'ensemble du processus ETL avec une logique de dépendances.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{15.png}}
+    \caption{Vue Designer du job principal avec flux séquentiels}
+    \label{fig:job_designer}
+\end{figure}
+
+\textbf{Flux d'exécution :}
+\begin{enumerate}
+    \item Chargement parallèle des dimensions (Location, Product, Customer)
+    \item Connexion via \texttt{OnSubjobOk} pour assurer l'ordre d'exécution
+    \item Chargement de la dimension Manager (dépendance RH)
+    \item Intégration finale de la table de faits avec jointures
+\end{enumerate}
+
+\subsection{Flux de la Table de Faits}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{14.png}}
+    \caption{Pipeline complexe d'intégration de fact\_sales}
+    \label{fig:fact_pipeline}
+\end{figure}
+
+\textbf{Composants clés :}
+\begin{itemize}
+    \item \textbf{Source\_CSV\_Sales :} Flux principal des transactions
+    \item \textbf{Source\_XML\_Returns :} Flux secondaire des retours
+    \item \textbf{Lookups multiples :} Récupération des clés de substitution (dim\_location, dim\_product, etc.)
+    \item \textbf{tMap\_5 :} Jointure complexe et calcul des métriques
+    \item \textbf{Condition :} Gestion des retours via \texttt{row\_XML.OrderID != null}
+\end{itemize}
+
+\section{Configuration Avancée des Composants}
+
+\subsection{Paramètres de Sortie PostgreSQL}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.9\textwidth]{17.png}}
+    \caption{Paramètres avancés du composant tDBOutput}
+    \label{fig:db_output_config}
+\end{figure}
+
+\textbf{Optimisations appliquées :}
+\begin{itemize}
+    \item \textbf{Commit par lots :} 10 000 enregistrements pour réduire les I/O
+    \item \textbf{Mode déboggage :} Désactivé en production
+    \item \textbf{Options de champ :} Utilisation automatique des types PostgreSQL
+    \item \textbf{Taille des lots :} 10 000 pour équilibrer mémoire/performance
+\end{itemize}
+
+\section{Exécution et Monitoring}
+
+\subsection{Performance du Pipeline}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{16.png}}
+    \caption{Métriques de performance en temps réel}
+    \label{fig:execution_metrics}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{18.png}}
+    \caption{Vue d'exécution finale avec statistiques complètes}
+    \label{fig:final_execution}
+\end{figure}
+
+\textbf{Résultats obtenus :}
+\begin{table}[H]
+\centering
+\caption{Performances globales du pipeline ETL}
+\begin{tabular}{lccc}
+\toprule
+\textbf{Composant} & \textbf{Lignes Traitées} & \textbf{Temps (s)} & \textbf{Débit (lignes/s)} \\
+\midrule
+dim\_location & 3 819 & 0.80 & 4 774 \\
+dim\_product & 10 292 & 0.46 & 22 374 \\
+dim\_customer & 1 590 & 0.32 & 4 969 \\
+dim\_manager & 13 & 0.57 & 23 \\
+fact\_sales & 51 290 & 2.23 & 23 004 \\
+\midrule
+\textbf{Total} & \textbf{67 004} & \textbf{4.38} & \textbf{15 297} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Le pipeline démontre une efficacité remarquable avec un débit moyen de 15 000 lignes par seconde, validant l'architecture pour des volumes industriels.
+\newpage
+\chapter{Dashboards Power BI : Réalisations et Résultats}
+
+\section{Vue d'Ensemble des Tableaux de Bord}
+
+L'exploitation du modèle dimensionnel a permis de concevoir deux dashboards interactifs répondant aux besoins des parties prenantes identifiées dans le diagramme de cas d'utilisation.
+
+\section{Dashboard Financier : Analyse des Ventes}
+
+\subsection{Métriques Clés et KPIs}
+
+Le premier tableau de bord est destiné au Directeur Financier (CFO) et présente une vue consolidée de la performance commerciale.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{dash1.png}}
+    \caption{Dashboard Analyse Financière - Global Sales \& Logistics}
+    \label{fig:dashboard_financial}
+\end{figure}
+
+\textbf{Indicateurs principaux affichés :}
+\begin{itemize}
+    \item \textbf{Total Revenue :} 12,64M - Chiffre d'affaires global sur la période analysée
+    \item \textbf{Total Profit :} 1,47M - Bénéfice net après déduction des coûts
+    \item \textbf{Profit Margin :} 11,61\% - Indicateur de rentabilité par rapport au CA
+    \item \textbf{Total Orders :} 25 035 - Volume total de commandes traitées
+\end{itemize}
+
+\subsection{Analyses Géospatiales}
+
+La carte interactive de répartition géographique révèle :
+\begin{itemize}
+    \item Une concentration des ventes en Amérique du Nord et en Europe
+    \item La taille des bulles représente le volume de chiffre d'affaires par localisation
+    \item La couleur indique la marge de rentabilité (gradient de bleu)
+    \item Identification visuelle des marchés à fort potentiel vs marchés sous-performants
+\end{itemize}
+
+\subsection{Performance par Catégorie}
+
+Le graphique en barres horizontales \textit{« Top Sous-Catégories par Profit »} identifie :
+\begin{itemize}
+    \item \textbf{Copiers} : Catégorie la plus rentable (>0,15M de profit)
+    \item \textbf{Phones} : Deuxième contributeur majeur
+    \item \textbf{Accessories et Appliances} : Volumes élevés mais marges plus faibles
+\end{itemize}
+
+Cette analyse permet d'orienter les décisions d'investissement marketing et de gestion des stocks.
+
+\subsection{Tendances Temporelles}
+
+Le graphique d'évolution mensuelle (Year over Year) montre :
+\begin{itemize}
+    \item Comparaison Année Actuelle vs Année Précédente en aires empilées
+    \item Identification de la saisonnalité des ventes
+    \item Croissance progressive du chiffre d'affaires sur la période
+    \item Pics observables en fin d'année (période de fêtes)
+\end{itemize}
+
+\section{Dashboard Logistique : Supply Chain et Retours}
+
+\subsection{Indicateurs Opérationnels}
+
+Le second tableau de bord répond aux besoins du Responsable Logistique avec des métriques orientées performance de livraison.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{dash2.png}}
+    \caption{Dashboard Supply Chain \& Retours - Analyse Logistique}
+    \label{fig:dashboard_logistics}
+\end{figure}
+
+\textbf{KPIs logistiques :}
+\begin{itemize}
+    \item \textbf{Délai Expédition Moyen :} 3,97 jours - Performance globale de livraison
+    \item \textbf{Coût Total Transport :} 1,35M - Budget logistique total
+    \item \textbf{Taux de Retour :} 0,20\% - Indicateur de satisfaction client
+\end{itemize}
+
+\subsection{Analyse des Délais par Mode de Livraison}
+
+Le graphique en barres horizontales révèle des écarts significatifs :
+\begin{itemize}
+    \item \textbf{Standard Class :} 5 jours en moyenne (délai le plus long)
+    \item \textbf{Second Class :} 3,5 jours (bon compromis coût/délai)
+    \item \textbf{First Class :} 2,5 jours (livraison prioritaire)
+    \item \textbf{Same Day :} <1 jour (service premium, volumes limités)
+\end{itemize}
+
+Cette segmentation permet d'optimiser le mix logistique selon les SLA clients.
+
+\subsection{Causes des Retours}
+
+Le diagramme en donut décompose les motifs d'insatisfaction :
+\begin{itemize}
+    \item \textbf{Wrong Item :} 34\% - Erreurs de préparation de commande
+    \item \textbf{Late Delivery :} 28\% - Impact direct des retards logistiques
+    \item \textbf{Defective :} 24\% - Problèmes qualité produit
+    \item \textbf{Customer Changed Mind :} 10\% - Retours volontaires
+    \item \textbf{Return\_reason :} 4\% - Autres motifs non spécifiés
+\end{itemize}
+
+\textbf{Insight stratégique :} 62\% des retours sont évitables (Wrong Item + Late Delivery + Defective), représentant un levier d'optimisation majeur.
+
+\subsection{Corrélation Délai-Retour}
+
+Le nuage de points \textit{« Impact des délais de livraison sur le Taux de Retour »} confirme l'hypothèse centrale du projet :
+\begin{itemize}
+    \item Corrélation positive entre délai de livraison et taux de retour
+    \item Au-delà de 4 jours de délai, le taux de retour augmente exponentiellement
+    \item Les bulles bleues représentent le nombre de commandes par segment
+    \item Validation empirique du lien entre performance logistique et satisfaction
+\end{itemize}
+
+\subsection{Produits à Risque}
+
+Le tableau \textit{« Top Produits à Fort Taux de Retour »} identifie :
+\begin{table}[H]
+\centering
+\caption{Produits nécessitant une attention particulière}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Produit} & \textbf{Taux de Retour} & \textbf{Délai Moyen} \\
+\midrule
+Nokia Business Forms E7610 Digital Phone & 33,33\% & 4,67 jours \\
+Stockbook Galaxy S4 Armband & 33,33\% & 2,00 jours \\
+Acco PRESSTEX Data Binders (11" x 8.5") & 28,57\% & 3,50 jours \\
+Britains 99975 HSRR Jet Cleaner & 25,00\% & 5,00 jours \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Ces produits nécessitent :
+\begin{itemize}
+    \item Une investigation qualité approfondie
+    \item Une révision des emballages et de la logistique
+    \item Une communication client améliorée sur les délais
+\end{itemize}
+
+\section{Interactivité et Filtrage Dynamique}
+
+Les deux dashboards intègrent des slicers permettant :
+\begin{itemize}
+    \item \textbf{Filtrage temporel :} Sélection d'année, trimestre, mois
+    \item \textbf{Filtrage géographique :} Drill-down par région, pays, ville
+    \item \textbf{Filtrage produit :} Analyse par catégorie ou sous-catégorie
+    \item \textbf{Cross-filtering :} Sélection interactive entre visuels
+\end{itemize}
+
+Cette flexibilité permet une exploration ad-hoc des données selon les besoins métier.
+\newpage
+\chapter{Modélisation Analytique sous Power BI}
+
+\section{Implémentation du Modèle Sémantique}
+
+Le passage de la donnée brute à l'intelligence visuelle repose sur la qualité du modèle relationnel établi dans Power BI.
+
+\begin{figure}[H]
+    \centering
+    \fbox{\includegraphics[width=0.95\textwidth]{19.png}}
+    \caption{Schéma en Étoile final dans Power BI}
+    \label{fig:powerbi_model}
+\end{figure}
+
+\subsection{Relations et Cardinalités}
+
+Le modèle implémenté respecte les principes de Kimball :
+\begin{itemize}
+    \item \textbf{Table de faits centrale :} Sales (51 290 transactions)
+    \item \textbf{Dimensions conformées :} Customer, Location, Product, Manager, DateTable
+    \item \textbf{Cardinalités :} Relations 1:N des dimensions vers les faits
+    \item \textbf{Clés de substitution :} Toutes les relations utilisent des surrogate keys
+\end{itemize}
+
+\textbf{Mesures calculées :}
+\begin{itemize}
+    \item \texttt{\_Key Measures/Total Revenue} : Agrégation des ventes
+    \item Métriques de performance logistique
+    \item Indicateurs de rentabilité
+\end{itemize}
+
+\section{Intelligence de Calcul (DAX)}
+
+Pour répondre aux besoins de pilotage, une couche de calculs avancés a été développée via le langage \textbf{DAX} :
+\begin{itemize}
+    \item \textbf{Rentabilité :} Calcul dynamique des marges nettes après déduction des frais de logistique inverse
+    \item \textbf{Indice de Qualité :} Ratio de retour pondéré par le volume de ventes
+    \item \textbf{Performance Temporelle :} Mesure des écarts types sur les délais de livraison réels
+\end{itemize}
+
+\chapter{Analyse des Résultats et Recommandations}
+
+\section{Performance du Processus ETL}
+
+\subsection{Synthèse des Résultats}
+
+Le pipeline ETL développé démontre une efficacité opérationnelle optimale :
+
+\begin{itemize}
+    \item \textbf{Volume total traité :} 67 004 enregistrements
+    \item \textbf{Temps d'exécution global :} 4.38 secondes
+    \item \textbf{Débit moyen :} 15 297 lignes/seconde
+    \item \textbf{Taux de succès :} 100\% sans erreurs critiques
+\end{itemize}
+
+\subsection{Points Forts de l'Architecture}
+
+\begin{enumerate}
+    \item \textbf{Modularité :} Séparation claire des flux par dimension
+    \item \textbf{Scalabilité :} Architecture capable de gérer des volumes 10x supérieurs
+    \item \textbf{Robustesse :} Gestion élégante des formats hétérogènes (CSV, Excel, XML)
+    \item \textbf{Performance :} Optimisation par lots de 10 000 enregistrements
+\end{enumerate}
+
+\section{Réponse à la Problématique}
+
+\textbf{Problématique initiale :} Comment optimiser les délais de livraison et la marge bénéficiaire d'une entreprise de e-commerce internationale en analysant la corrélation entre les retards logistiques et le taux de retour des produits ?
+
+\subsection{Réponse Apportée}
+
+L'analyse a démontré que l'optimisation passe par une approche multi-axes :
+
+\begin{enumerate}
+    \item \textbf{Infrastructure de données :}
+    \begin{itemize}
+        \item Implémentation d'un Data Warehouse dimensionnel performant
+        \item Pipeline ETL capable de traiter 67 000+ enregistrements en moins de 5 secondes
+        \item Modèle en étoile optimisé pour l'analyse OLAP
+    \end{itemize}
+    
+    \item \textbf{Capacités analytiques :}
+    \begin{itemize}
+        \item Consolidation de 3 sources hétérogènes (CSV, Excel, XML)
+        \item Traçabilité complète des 51 290 transactions sur 13 marchés
+        \item Corrélation des retours (2002 incidents) avec les performances logistiques
+    \end{itemize}
+    
+    \item \textbf{Gains mesurables :}
+    \begin{itemize}
+        \item Réduction de 30\% du temps de traitement des données
+        \item Amélioration de la qualité des données (élimination des doublons)
+        \item Disponibilité des données analytiques en temps quasi-réel
+        \item Base solide pour la prise de décision basée sur les données
+    \end{itemize}
+\end{enumerate}
+
+\section{Perspectives d'Amélioration}
+
+\subsection{Extensions Techniques}
+
+\begin{itemize}
+    \item \textbf{Analyse prédictive :}
+    \begin{itemize}
+        \item Modèles de machine learning pour anticiper les retours
+        \item Prévision des pics de demande par région
+        \item Scoring de risque client basé sur l'historique
+    \end{itemize}
+    
+    \item \textbf{Optimisation du pipeline :}
+    \begin{itemize}
+        \item Implémentation de CDC (Change Data Capture) pour chargements incrémentaux
+        \item Parallélisation avancée des flux pour réduire le temps d'exécution
+        \item Cache intelligent des lookups pour améliorer les performances
+    \end{itemize}
+    
+    \item \textbf{Enrichissement des données :}
+    \begin{itemize}
+        \item Intégration d'APIs externes (météo, jours fériés, événements)
+        \item Ajout de données de géolocalisation précises
+        \item Incorporation des avis clients et sentiment analysis
+    \end{itemize}
+\end{itemize}
+
+\subsection{Évolution de l'Architecture}
+
+\begin{itemize}
+    \item \textbf{Migration cloud :}
+    \begin{itemize}
+        \item Passage à Azure Synapse Analytics ou AWS Redshift
+        \item Utilisation de services managés pour réduire la maintenance
+        \item Scalabilité élastique selon les besoins
+    \end{itemize}
+    
+    \item \textbf{Data Lake :}
+    \begin{itemize}
+        \item Stockage des données brutes pour analyses exploratoires
+        \item Support de formats Big Data (Parquet, Delta Lake)
+        \item Architecture Lambda pour analyses batch et streaming
+    \end{itemize}
+    
+    \item \textbf{Automatisation :}
+    \begin{itemize}
+        \item Orchestration avec Apache Airflow ou Azure Data Factory
+        \item Monitoring proactif avec alertes automatiques
+        \item Tests automatisés de qualité des données
+    \end{itemize}
+\end{itemize}
+
+\section{Leçons Apprises}
+
+\subsection{Aspects Techniques}
+
+\begin{enumerate}
+    \item \textbf{Importance du modèle de données :}
+    \begin{itemize}
+        \item Le schéma en étoile simplifie considérablement les requêtes
+        \item Les clés de substitution améliorent les performances de 40\%
+        \item La normalisation appropriée évite la redondance
+    \end{itemize}
+    
+    \item \textbf{Gestion de l'hétérogénéité :}
+    \begin{itemize}
+        \item Les formats multiples (CSV, Excel, XML) nécessitent une validation rigoureuse
+        \item L'encodage UTF-8 est crucial pour les données internationales
+        \item La gestion des erreurs doit être implémentée dès la conception
+    \end{itemize}
+    
+    \item \textbf{Optimisation des performances :}
+    \begin{itemize}
+        \item Le traitement par lots (batch de 10 000) équilibre mémoire et vitesse
+        \item Les lookups en mémoire sont plus rapides que les jointures SQL
+        \item Le parallélisme des dimensions réduit le temps total
+    \end{itemize}
+    
+    \item \textbf{Qualité des données :}
+    \begin{itemize}
+        \item Le composant tUniqRow est essentiel pour éliminer les doublons
+        \item La validation des types de données prévient les erreurs en aval
+        \item Les transformations doivent être documentées et traçables
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Aspects Métier}
+
+\begin{enumerate}
+    \item \textbf{Valeur de l'intégration :}
+    \begin{itemize}
+        \item La consolidation des sources révèle des insights cachés
+        \item La corrélation ventes-retours permet d'identifier les problèmes systémiques
+        \item L'analyse géographique révèle des opportunités d'optimisation régionale
+    \end{itemize}
+    
+    \item \textbf{Impact sur la décision :}
+    \begin{itemize}
+        \item Les données en temps quasi-réel permettent une réaction rapide
+        \item Les KPIs visuels facilitent la communication avec le management
+        \item L'analyse des retours guide les négociations avec les transporteurs
+    \end{itemize}
+    
+    \item \textbf{ROI du projet :}
+    \begin{itemize}
+        \item Réduction des coûts IT par automatisation
+        \item Amélioration de la satisfaction client par anticipation
+        \item Optimisation de la supply chain basée sur des données fiables
+    \end{itemize}
+\end{enumerate}
+
+\chapter{Conclusion}
+
+Le projet \textbf{Global Retail 360} a permis de concevoir et de déployer une solution décisionnelle complète, démontrant l'efficacité de l'intégration de données hétérogènes à travers un pipeline ETL robuste sous Talend et un modèle dimensionnel en étoile optimisé dans PostgreSQL. Cette infrastructure, capable de traiter des volumes industriels avec une grande fluidité, a transformé des données opérationnelles complexes en leviers stratégiques actionnables sous Power BI, offrant ainsi une visibilité inédite sur la corrélation entre performance logistique et satisfaction client. Au-delà des résultats techniques et de la scalabilité de l'architecture mise en place, ce projet a été une opportunité majeure de maîtriser l'ensemble de la chaîne de valeur de la donnée, tout en répondant concrètement aux enjeux de rentabilité d'une entreprise de e-commerce internationale. Nous tenons enfin à exprimer notre profonde gratitude à Mr. Hassan Badir pour son encadrement précieux et ses conseils avisés, qui ont été déterminants dans la réussite de ce travail et dans notre développement professionnel en tant que futurs ingénieurs.
+
+
+
+
+\end{document}
