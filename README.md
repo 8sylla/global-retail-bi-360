@@ -23,16 +23,6 @@ The project simulates a real-world heterogeneous data environment by aggregating
 
 ---
 
-## 👥 Authors
-
-*   **SYLLA N'FALY**
-*   **EL MEHDI EL ADNANI**
-*   **CHAIBERRAS SOUHAIL**
-
-**Supervised by:** Pr. Hassan BADIR
-
----
-
 ## Technical Architecture
 
 The solution follows a classic BI pipeline structure:
